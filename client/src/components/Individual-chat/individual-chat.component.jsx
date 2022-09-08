@@ -11,9 +11,8 @@ import {useFetchMessageQuery, useSendMessageMutation} from "../../features/chat/
 import {toast} from "react-toastify";
 import ScrollableChat from "../scrollable-chat/scrollable-chat.component.jsx";
 import io from "socket.io-client";
-import {fetchChatAgain} from "../../features/chat/chat.slice.js";
 
-const ENDPOINT = "http://localhost:5000"
+const ENDPOINT = "https://funky-chats.herokuapp.com/"
 let socket, selectedChatCompare;
 
 const IndividualChat = () => {
