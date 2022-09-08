@@ -21,6 +21,7 @@ import {useGetSearchUserQuery} from "../../features/user/user.api.js";
 import {useAccessChatsMutation} from "../../features/chat/chat.api.js";
 import {toast} from "react-toastify";
 import {selectedChat} from "../../features/chat/chat.slice.js";
+import ProfileModal from "../profile-modal/profile-modal.component.jsx";
 
 
 const Header = () => {
@@ -31,15 +32,14 @@ const Header = () => {
     const [searchModal, setSearchModal] = useState(false);
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState(null);
-    const {userInfo} = useSelector((state) => {
-        console.log("userState", state.persistedReducer)
-        return state.persistedReducer.user
-    })
+    const {userInfo} = useSelector((state) => state.persistedReducer.user )
     const {data = [], isLoading, error} = useGetSearchUserQuery(search === '' ? null : search);
     const [accessChat] = useAccessChatsMutation();
 
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false)
+    };
 
 
     const user = JSON.parse(userInfo)
@@ -74,12 +74,12 @@ const Header = () => {
             userId
         }
         await accessChat(data).unwrap().then((payload) => {
-            setLoading(false)
             dispatch(selectedChat(payload))
             setSearchModal(false)
+            setLoading(false)
         })
             .catch((error) => {
-                toast.error(error.data.message)
+                toast.error(error)
                 setLoading(false)
             });
     }
@@ -89,7 +89,7 @@ const Header = () => {
 
         <>
             <AppBar position="static" sx={{margin: 0}}>
-                <Container maxWidth="xl">
+                <Container maxWidth="l">
                     <Toolbar disableGutters>
 
                         <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
@@ -144,21 +144,8 @@ const Header = () => {
                     </Toolbar>
                 </Container>
             </AppBar>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{mt: 2}}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
-                </Box>
-            </Modal>
+
+            <ProfileModal isOpen={open} handleClose={handleClose}/>
 
             <Modal
                 open={searchModal}
@@ -183,7 +170,7 @@ const Header = () => {
 
                         </Search>
 
-                        {isLoading ? <ChatLoadingComponent/> :
+                        {loading ?" Loading...":
                             <>
                                 {data.map(user => {
                                     return (

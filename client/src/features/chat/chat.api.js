@@ -21,6 +21,7 @@ export const chatApi = createApi({
                 method: 'GET'
             })
         }),
+
         accessChats: build.mutation({
             query: (body) => ({
                 url: 'api/chats',
@@ -31,8 +32,37 @@ export const chatApi = createApi({
                 }
             })
         }),
+        createGroupChat: build.mutation({
+            query: (body) => ({
+                url: 'api/chats/createGroupChat',
+                method: 'POST',
+                body,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                }
+            })
+        }),
+        sendMessage: build.mutation({
+            query: (body) => ({
+                url: 'api/message',
+                method: 'POST',
+                body,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                }
+            })
+        }),
+        fetchMessage: build.query({
+            query: (chatId) => ({
+                url: `api/message/${chatId}`,
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                }
+            })
+        }),
 
     })
 })
 
-export const {useGetAllChatsQuery, useAccessChatsMutation} = chatApi
+export const {useGetAllChatsQuery, useAccessChatsMutation, useCreateGroupChatMutation, useFetchMessageQuery,  useSendMessageMutation} = chatApi

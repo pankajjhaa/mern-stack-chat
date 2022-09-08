@@ -17,7 +17,7 @@ export const userApi = createApi({
     endpoints: (build) => ({
         getSearchUser: build.query({
             query: (search=null) => ({
-                url:  `api/user?search=${search}`,
+                url:  search ? `api/user?search=${search}` : 'api/user',
                 method: 'GET'
             }),
             invalidatesTags: 'User',

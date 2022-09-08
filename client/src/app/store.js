@@ -21,7 +21,7 @@ import {userApi} from "../features/user/user.api.js";
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'selectedChat']
+    whitelist: ['user']
 }
 
 

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-   selectedChat: null
+    selectedChat: null, fetchAgain: false
 }
 
 
@@ -11,10 +11,13 @@ const searchSlice = createSlice({
     reducers: {
         selectedChat: (state, action) => {
             state.selectedChat = action.payload
+        },
+        fetchChatAgain: (state, action) => {
+            state.fetchAgain = action.payload
         }
     }
 })
 
-export const { selectedChat } = searchSlice.actions
+export const {selectedChat, fetchChatAgain} = searchSlice.actions
 
 export default searchSlice.reducer

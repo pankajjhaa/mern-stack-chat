@@ -74,7 +74,6 @@ const SignUp = () => {
 
     function uploadImage(image) {
         setLoading(true)
-        console.log(image)
         if (image === undefined) {
             toast.warning("Please upload image")
             setLoading(false)
@@ -93,12 +92,10 @@ const SignUp = () => {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log(data)
                     setImage(data.url.toString())
                     setLoading(false)
                 })
                 .catch((err) => {
-                    console.log(err)
                     setLoading(false)
                 })
         } else {

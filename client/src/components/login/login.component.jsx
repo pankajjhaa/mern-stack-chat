@@ -26,8 +26,8 @@ export default function Login() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
     const [login] = useLoginMutation()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState(null)
+    const [password, setPassword] = useState(null)
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -42,15 +42,15 @@ export default function Login() {
         }
 
         await login(user).unwrap().then((payload) => {
-            toast.success("Login success")
             setLoading(false)
             localStorage.setItem('user', JSON.stringify(payload))
             navigate("/chats");
             const userInfo = localStorage.getItem('user')
             dispatch(setUser(userInfo))
+            toast.success("Login success")
         })
             .catch((error) => {
-                toast.error(error.data.message)
+                toast.error(error.data)
                 setLoading(false)
             });
 
@@ -60,7 +60,7 @@ export default function Login() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xs" >
                 <CssBaseline/>
                 <Box
                     sx={{
